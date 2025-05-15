@@ -2,33 +2,35 @@
 I receive a fuel crash report, provide a quick analysis, store it and notify others
 "
 Class {
-	#name : #OsmoCrashReportServer,
-	#superclass : #Object,
+	#name : 'OsmoCrashReportServer',
+	#superclass : 'Object',
 	#instVars : [
 		'server',
 		'emailFrom',
 		'emailTo',
-		'crashDumpDirectory'
+		'crashDumpDirectory',
+		'baseDir'
 	],
-	#category : #OsmoCrashReportServer
+	#category : 'OsmoCrashReportServer',
+	#package : 'OsmoCrashReportServer'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'adding' }
 OsmoCrashReportServer >> addEmailTo: aTo [ 
 	emailTo add: aTo
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'accessing' }
 OsmoCrashReportServer >> crashDumpDirectory: aDirectory [ 
 	crashDumpDirectory := aDirectory
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'operations' }
 OsmoCrashReportServer >> createTicketForCrash: aFLHeader data: aCollection [ 
 	"TODO.. create jira bug reports"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'operations' }
 OsmoCrashReportServer >> emailCrash: aHeader data: aDump [ 
 	| mail smtp |
 	mail := MailMessage
@@ -47,12 +49,12 @@ OsmoCrashReportServer >> emailCrash: aHeader data: aDump [
 	] ensure: [smtp close].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'accessing' }
 OsmoCrashReportServer >> emailFrom: aFromAddress [ 
 	emailFrom := aFromAddress
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'operations' }
 OsmoCrashReportServer >> handleCrash: aRequest response: aResponse [
 	| data info |
 
@@ -72,7 +74,7 @@ OsmoCrashReportServer >> handleCrash: aRequest response: aResponse [
 	^aResponse entity: (ZnStringEntity html: '<h1>Too bad it crashed</h1>')
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'initialization' }
 OsmoCrashReportServer >> initialize [
 	super initialize.
 	emailTo := OrderedCollection new.
@@ -82,13 +84,13 @@ OsmoCrashReportServer >> initialize [
 			map: '/crash' to: [ :request :response | self handleCrash: request response: response ]).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'operations' }
 OsmoCrashReportServer >> start: aPort [
 	server port: aPort.
 	server start.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'operations' }
 OsmoCrashReportServer >> storeCrash: aHeader data: aDump [ 
 	| fileName |
 	fileName := crashDumpDirectory / 'crash-', DateAndTime now asUnixTime printString, '.fuel'.
