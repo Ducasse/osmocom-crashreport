@@ -1,25 +1,26 @@
 Class {
-	#name : #OsmoCrashReportErrorHandler,
-	#superclass : #Object,
+	#name : 'OsmoCrashReportErrorHandler',
+	#superclass : 'Object',
 	#instVars : [
 		'reportUrl',
 		'username',
 		'password'
 	],
-	#category : #OsmoCrashReportClient
+	#category : 'OsmoCrashReportClient',
+	#package : 'OsmoCrashReportClient'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'event handling' }
 OsmoCrashReportErrorHandler >> handleError: anError on: block [ 
 	self reportError: anError
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'event handling' }
 OsmoCrashReportErrorHandler >> handleTimerError: anError on: aTimer [
 	self reportError: anError
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'private' }
 OsmoCrashReportErrorHandler >> reportError: anError [ 
 	| backTrace serializer data |
 	backTrace := anError signalerContext stack collect: [:each | each asString ].
@@ -53,12 +54,12 @@ OsmoCrashReportErrorHandler >> reportError: anError [
 	] fork.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'accessing' }
 OsmoCrashReportErrorHandler >> reportUrl: aUrl [  
 	reportUrl := aUrl
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'instance creation' }
 OsmoCrashReportErrorHandler >> username: aUsername password: aPassword [ 
 	username := aUsername.
 	password := aPassword.

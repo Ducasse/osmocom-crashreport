@@ -1,1 +1,1 @@
-Package { #name : #OsmoCrashReportClient }
+Package { #name : 'OsmoCrashReportClient' }
